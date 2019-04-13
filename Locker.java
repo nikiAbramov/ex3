@@ -8,7 +8,7 @@ public class Locker {
     final String MSG_ERROR_RMV_1 = "Error: Your request cannot be completed at this time. Problem: cannot remove a negative number of items of type ";
 
     private Integer capacity;
-    private HashMap<String, Integer> items;
+    private HashMap<String, Integer> inventory;
 
     /**
      * This is the constructor. it creates a new object of Locker.
@@ -16,7 +16,7 @@ public class Locker {
      */
     public Locker(int capacity){
         this.capacity = capacity;
-        this.items = new HashMap<String, Integer>();
+        this.inventory = new HashMap<String, Integer>();
     }
 
     /**
@@ -29,13 +29,13 @@ public class Locker {
      *          1 if the items were added, but it caused some items in the locker to move to long-term storage
      */
     public int addItem(Item item, int n){
-        if (items.containsKey(item.getType())){
-            int currentquantityOfItem = items.get(item.getType());
+        if (inventory.containsKey(item.getType())){
+            int currentquantityOfItem = inventory.get(item.getType());
             currentquantityOfItem += n;
-            items.put(item.getType(), currentquantityOfItem);
+            inventory.put(item.getType(), currentquantityOfItem);
         }
         else{
-            items.put(item.getType(), n);
+            inventory.put(item.getType(), n);
         }
         return 0;
     }
@@ -53,19 +53,19 @@ public class Locker {
             return -1;
         }
 
-        if (!items.containsKey(item.getType())){
+        if (!inventory.containsKey(item.getType())){
             System.out.println("Error: Your request cannot be completed atthis time.  Problem: the locker does not contain " + n + " items of type " + item.getType());
             return -1;
         }
 
-        if ((int)items.get(item.getType()) < n){
+        if ((int)inventory.get(item.getType()) < n){
             System.out.println("Error: Your request cannot be completed atthis time.  Problem: the locker does not contain " + n + " items of type " + item.getType());
             return -1;
         }
 
-        int new_quantity = items.get(item.getType()) - n;
-        items.remove(item.getType());
-        items.put(item.getType(), new_quantity);
+        int new_quantity = inventory.get(item.getType()) - n;
+        inventory.remove(item.getType());
+        inventory.put(item.getType(), new_quantity);
 
         return 0;
     }
@@ -74,8 +74,8 @@ public class Locker {
      * This method returns the amount of items of the requested type
      */
     public int getItemCount(String type){
-        if (!items.containsKey(type)) return 0;
-        return items.get(type);
+        if (!inventory.containsKey(type)) return 0;
+        return inventory.get(type);
     }
 
     /**
@@ -83,7 +83,7 @@ public class Locker {
      * @return an item of item types and their amount in the locker
      */
     public Map<String, Integer> getInventory(){
-        return this.items;
+        return this.inventory;
     }
 
     /**
@@ -98,7 +98,7 @@ public class Locker {
      */
     public int getAvailableCapacity(){
         int availableCapacity = this.capacity;
-        Iterator iter = items.entrySet().iterator();
+        Iterator iter = inventory.entrySet().iterator();
         while(iter.hasNext()){
             Map.Entry pair = (Map.Entry)iter.next();
             int itemVolume = 0;
