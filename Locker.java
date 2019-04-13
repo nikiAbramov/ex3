@@ -1,10 +1,13 @@
 import oop.ex3.spaceship.Item;
 
+import javax.swing.text.html.HTMLDocument;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 public class Locker {
+    final String MSG_ERROR_RMV_1 = "Error: Your request cannot be completed at this time. Problem: cannot remove a negative number of items of type ";
+
     private Integer capacity;
     private HashMap<String, Integer> items;
 
@@ -38,12 +41,42 @@ public class Locker {
         return 0;
     }
 
+    /**
+     * This method removes a certain amount of items of a certain type if it is possible
+     * @param item The item which is requested to be removed
+     * @param n the quantity of the item to be removed
+     * @return 0 if successfully removed n items. -1 if the requested amount to remove was more then actual items
+     * in locker, or if the requested amount was negative
+     */
     public int removeItem(Item item, int n){
-        return -1;
+        if (n < 0){
+            System.out.println(MSG_ERROR_RMV_1);
+            return -1;
+        }
+
+        if (!items.containsKey(item.getType())){
+            System.out.println("Error: Your request cannot be completed atthis time.  Problem: the locker does not contain " + n + " items of type " + item.getType());
+            return -1;
+        }
+
+        if ((int)items.get(item.getType()) < n){
+            System.out.println("Error: Your request cannot be completed atthis time.  Problem: the locker does not contain " + n + " items of type " + item.getType());
+            return -1;
+        }
+
+        int new_quantity = items.get(item.getType()) - n;
+        items.remove(item.getType());
+        items.put(item.getType(), new_quantity);
+
+        return 0;
     }
 
+    /**
+     * This method returns the amount of items of the requested type
+     */
     public int getItemCount(String type){
-        return -1;
+        if (!items.containsKey(type)) return 0;
+        return items.get(type);
     }
 
     /**
@@ -55,7 +88,7 @@ public class Locker {
     }
 
     /**
-     * This method returns the locker's capacity
+     * This method returns the locker's maximum capacity
      * @return int of the lockers capacity
      */
     public int getCapacity() { return this.capacity; }
