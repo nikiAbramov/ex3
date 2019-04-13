@@ -1,4 +1,3 @@
-import junit.framework.Assert;
 import oop.ex3.spaceship.Item;
 import oop.ex3.spaceship.ItemFactory;
 import org.junit.*;
@@ -139,6 +138,18 @@ public class LockerTest {
         Assert.assertEquals(-1, testLocker.addItem(ITEM_HELMET_1, 34));
         Assert.assertEquals(-1, testLocker.addItem(ITEM_HELMET_3, 21));
         Assert.assertEquals(-1, testLocker.addItem(ITEM_SPORES_ENGINE, 11));
+
+        Assert.assertEquals(0, testLocker.addItem(ITEM_HELMET_1, 10));
+        Assert.assertEquals(0, testLocker.addItem(ITEM_HELMET_3, 6));
+        Assert.assertEquals(0, testLocker.addItem(ITEM_SPORES_ENGINE, 3));
+        Assert.assertEquals(-1, testLocker.addItem(ITEM_BASEBALL_BAT, 6));
+
+        testLocker.removeItem(ITEM_HELMET_1, 10);
+        testLocker.removeItem(ITEM_HELMET_3, 6);
+        Assert.assertEquals(1, testLocker.addItem(ITEM_SPORES_ENGINE, 3));
+        Assert.assertEquals(1, testLocker.addItem(ITEM_HELMET_3, 12));
+        Assert.assertEquals(0, testLocker.addItem(ITEM_HELMET_1, 10));
+        Assert.assertEquals(-1, testLocker.addItem(ITEM_HELMET_1, 11));
 
     }
 

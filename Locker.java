@@ -1,6 +1,5 @@
 import oop.ex3.spaceship.Item;
 
-import javax.swing.text.html.HTMLDocument;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
