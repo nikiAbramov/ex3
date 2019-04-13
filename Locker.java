@@ -1,10 +1,13 @@
 import oop.ex3.spaceship.Item;
+import oop.ex3.spaceship.ItemFactory;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 public class Locker {
+    static LongTermStorage LONG_TERM_STORAGE = new LongTermStorage();
+
     final String MSG_ERROR_RMV_1 = "Error: Your request cannot be completed at this time. Problem: cannot remove a negative number of items of type ";
 
     private Integer capacity;
@@ -29,14 +32,35 @@ public class Locker {
      *          1 if the items were added, but it caused some items in the locker to move to long-term storage
      */
     public int addItem(Item item, int n){
+        if (getAvailableCapacity() - n * item.getVolume() < 0){
+            System.out.println("Error: Your request cannot be completed at this time. Problem: no room for "
+                    + n + " items of type " + item.getType());
+            return -1;
+        }
+
+        int currentquantityOfItem = 0;
         if (inventory.containsKey(item.getType())){
-            int currentquantityOfItem = inventory.get(item.getType());
-            currentquantityOfItem += n;
-            inventory.put(item.getType(), currentquantityOfItem);
+            currentquantityOfItem = inventory.get(item.getType());
+            inventory.remove(item.getType());
         }
-        else{
-            inventory.put(item.getType(), n);
+
+        currentquantityOfItem += n;
+
+        if (currentquantityOfItem * item.getVolume() > 0.5 * this.capacity){
+            int itemsKept = 0;
+            while (0.2 * this.capacity > itemsKept * item.getVolume()) itemsKept++;
+            if (LONG_TERM_STORAGE.addItem(item, currentquantityOfItem - itemsKept) == 0){
+                this.inventory.put(item.getType(), itemsKept);
+                System.out.println("Warning: Action successful, but has caused items to be moved to storage");
+                return 1;
+            }
+            else{
+                // TODO: UNDERSTAND WHAT HAPPENS IN THIS POINT, RIGHT NOW IT DOESNT ADD ITEMS
+                return -1;
+            }
         }
+
+        this.inventory.put(item.getType(), currentquantityOfItem);
         return 0;
     }
 

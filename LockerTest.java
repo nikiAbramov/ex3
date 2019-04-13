@@ -17,6 +17,7 @@ public class LockerTest {
     final Item ITEM_HELMET_1 = itemFactory.createSingleItem("helmet, size 1");
     final Item ITEM_HELMET_3 = itemFactory.createSingleItem("helmet, size 3");
     final Item ITEM_SPORES_ENGINE = itemFactory.createSingleItem("spores engine");
+    final Item ITEM_FOOTBALL = itemFactory.createSingleItem("football");
 
     @BeforeClass
     public static void createItemFactory(){
@@ -185,5 +186,15 @@ public class LockerTest {
         testLocker.addItem(ITEM_SPORES_ENGINE, 1);
 
         Assert.assertEquals(testMap, testLocker.getInventory());
+    }
+
+    @Test
+    public void testAddItemContradicting(){
+        testLocker.addItem(ITEM_BASEBALL_BAT, 1);
+        Assert.assertEquals(-2, testLocker.addItem(ITEM_FOOTBALL, 1));
+
+        testLocker.removeItem(ITEM_BASEBALL_BAT, 1);
+        Assert.assertEquals(0, testLocker.addItem(ITEM_FOOTBALL, 1));
+        Assert.assertEquals(-2, testLocker.addItem(ITEM_BASEBALL_BAT, 1));
     }
 }

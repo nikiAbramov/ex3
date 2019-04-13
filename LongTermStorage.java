@@ -23,7 +23,22 @@ public class LongTermStorage {
      * @return 0 if successful, -1 if there was a problem and the items weren't added
      */
     public int addItem(Item item, int n){
-        return -431;
+        if (n < 0) return -1;
+
+        if (getAvailableCapacity() < item.getVolume() * n){
+            System.out.println("Error: Your request cannot be completed at this time. Problem: no room for "
+                    + n + " Items of type " + item.getType());
+            return -1;
+        }
+
+        int currentQuantity = 0;
+        if (this.inventory.containsKey(item.getType())){
+            currentQuantity = this.inventory.get(item.getType());
+            this.inventory.remove(item.getType());
+        }
+
+        this.inventory.put(item.getType(), n + currentQuantity);
+        return 0;
     }
 
     /**
@@ -31,8 +46,14 @@ public class LongTermStorage {
      */
     public void resetInventory() { inventory = new HashMap<String, Integer>(); }
 
+    /**
+     * this method returns the amount of items of the requested type are in the inventory
+     * @param type The type about which we ask
+     * @return the number of items of said type in the inventory
+     */
     public int getItemCount(String type){
-        return -1;
+        if (!this.inventory.containsKey(type)) return 0;
+        return this.inventory.get(type);
     }
 
     /**
@@ -56,7 +77,7 @@ public class LongTermStorage {
         Item[] allItems = ItemFactory.createAllLegalItems();
         for (int i = 0; i < allItems.length; i++){
             if (this.inventory.containsKey(allItems[i].getType())){
-                occupidSpace += this.inventory.get(allItems[i]) * allItems[i].getVolume();
+                occupidSpace += this.inventory.get(allItems[i].getType()) * allItems[i].getVolume();
             }
         }
         return LONG_TERM_MAX_STORAGE - occupidSpace;

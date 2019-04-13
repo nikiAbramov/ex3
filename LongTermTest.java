@@ -26,7 +26,7 @@ public class LongTermTest {
         testStorage = new LongTermStorage();
     }
 
-    @Ignore
+    @Test
     public void testGetInventory(){
         HashMap<String, Integer> testInventory = new HashMap<String, Integer>();
         Assert.assertEquals(testInventory, testStorage.getInventory());
@@ -49,7 +49,7 @@ public class LongTermTest {
     }
 
 
-    @Ignore
+    @Test
     public void testGetCapacity(){
         Assert.assertEquals(1000, testStorage.getCapacity());
 
@@ -57,7 +57,11 @@ public class LongTermTest {
         testStorage.addItem(ITEM_HELMET_1, 10);
         testStorage.addItem(ITEM_HELMET_3, 4);
         testStorage.addItem(ITEM_SPORES_ENGINE, 5);
-        Assert.assertEquals(900, testStorage.getCapacity());
+        Assert.assertEquals(1000, testStorage.getCapacity());
+        Assert.assertEquals(890, testStorage.getAvailableCapacity());
+
+        testStorage.addItem(ITEM_SPORES_ENGINE, 20);
+        Assert.assertEquals(690, testStorage.getAvailableCapacity());
     }
 
     @Test
@@ -86,7 +90,7 @@ public class LongTermTest {
 
         Assert.assertEquals(0, testStorage.addItem(ITEM_BASEBALL_BAT, 7));
         Assert.assertEquals(0, testStorage.addItem(ITEM_HELMET_1, 2));
-        Assert.assertEquals(390, testStorage.getAvailableCapacity());
+        Assert.assertEquals(380, testStorage.getAvailableCapacity());
         testStorage.resetInventory();
 
         Assert.assertEquals(0, testStorage.addItem(ITEM_BASEBALL_BAT, 500));
@@ -100,7 +104,40 @@ public class LongTermTest {
 
         Assert.assertEquals(0, testStorage.addItem(ITEM_SPORES_ENGINE, 100));
         testStorage.resetInventory();
+    }
 
+    @Test
+    public void testGetItemCount(){
+        Assert.assertEquals(0, testStorage.getItemCount(ITEM_BASEBALL_BAT.getType()));
+        Assert.assertEquals(0, testStorage.getItemCount(ITEM_HELMET_1.getType()));
+        Assert.assertEquals(0, testStorage.getItemCount(ITEM_HELMET_3.getType()));
+        Assert.assertEquals(0, testStorage.getItemCount(ITEM_SPORES_ENGINE.getType()));
 
+        testStorage.addItem(ITEM_BASEBALL_BAT, 17);
+        Assert.assertEquals(17, testStorage.getItemCount(ITEM_BASEBALL_BAT.getType()));
+        testStorage.addItem(ITEM_BASEBALL_BAT, 3);
+        Assert.assertEquals(20, testStorage.getItemCount(ITEM_BASEBALL_BAT.getType()));
+
+        testStorage.addItem(ITEM_HELMET_1, 30);
+        Assert.assertEquals(30, testStorage.getItemCount(ITEM_HELMET_1.getType()));
+        testStorage.addItem(ITEM_HELMET_3, 2);
+        Assert.assertEquals(2, testStorage.getItemCount(ITEM_HELMET_3.getType()));
+        testStorage.addItem(ITEM_BASEBALL_BAT, 30);
+        Assert.assertEquals(50, testStorage.getItemCount(ITEM_BASEBALL_BAT.getType()));
+
+        testStorage.resetInventory();
+        Assert.assertEquals(0, testStorage.getItemCount(ITEM_BASEBALL_BAT.getType()));
+        Assert.assertEquals(0, testStorage.getItemCount(ITEM_HELMET_1.getType()));
+        Assert.assertEquals(0, testStorage.getItemCount(ITEM_HELMET_3.getType()));
+        Assert.assertEquals(0, testStorage.getItemCount(ITEM_SPORES_ENGINE.getType()));
+
+        for (int n = 1; n < 101; n++) {
+            testStorage.addItem(ITEM_SPORES_ENGINE, 1);
+            Assert.assertEquals(n, testStorage.getItemCount(ITEM_SPORES_ENGINE.getType()));
+        }
+        for (int n = 0; n < 10; n++) {
+            testStorage.addItem(ITEM_SPORES_ENGINE, n + 1);
+            Assert.assertEquals(100, testStorage.getItemCount(ITEM_SPORES_ENGINE.getType()));
+        }
     }
 }
