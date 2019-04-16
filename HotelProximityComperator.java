@@ -35,12 +35,11 @@ public class HotelProximityComperator implements Comparator<Hotel> {
     }
 
     /**
-     * TODO: not sure if i even want to implement this as its unnessisery for the excercise. ask TA. for
-     * TODO: now keep it default
-     * @param obj
-     * @return
+     * kept it in the default. meaning comperators are only equal if they have the same reference
      */
-    public boolean equals(Object obj){
+    public boolean equals(Object var1){
+        if (this == var1)
+            return true;
         return false;
     }
 
