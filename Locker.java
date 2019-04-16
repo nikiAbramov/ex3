@@ -67,14 +67,15 @@ public class Locker {
         if (currentquantityOfItem * item.getVolume() > 0.5 * this.capacity){
             int itemsKept = 1;
             while (0.2 * this.capacity >= itemsKept * item.getVolume()) itemsKept++;
-            itemsKept--; //If the breaked outside of the while loop, we have already more then 20% of the locker storage
+            itemsKept--; //If this breaked outside of the while loop, we have already more then 20% of the locker storage
             if (LONG_TERM_STORAGE.addItem(item, currentquantityOfItem - itemsKept) == 0){
                 this.inventory.put(item.getType(), itemsKept);
                 System.out.println("Warning: Action successful, but has caused items to be moved to storage");
                 return 1;
             }
             else{
-                // TODO: UNDERSTAND WHAT HAPPENS IN THIS POINT, RIGHT NOW IT DOESNT ADD ITEMS
+                System.out.println("Error: Your request cannot be completed at this time. Problem: no room for "
+                        + n + "∗ Items of type " + item.getType());
                 return -1;
             }
         }

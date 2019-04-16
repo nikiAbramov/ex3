@@ -1,0 +1,76 @@
+nik48
+
+
+=============================
+=      File description     =
+=============================
+
+Locker.java             - Class for the Locker object. represents a locker in which items can be added and removed.
+LongTermStorage.java    - Class for LongTermStorage object. represents a singular central storage unit that the locker
+                          objects use in some cases.
+LockerTest.Java         - Test class for locker. contains tests for the locker class.
+LongTermTest.java       - Test class for the LongTermStorage. contains tests for the LongTermStorage class.
+SpaceshipDepositoryTest.java - Test suite for LockerTest and LongTermTest
+BoopingSite.java        - Class for BoopingSite. The site can sort hotels acording to their rating or proximity
+                          to certain latitude and longitude
+BoopingSiteTest.java    - Test class for BoopingSite. Contains test for Boopsite methods
+HotelRatingComperator.java  - Comperator that is used for sorting and comparing Hotel objects acording to their rating
+HotelProximityComperator.java   - Comperator that compares hotels acording to thier proximity to a point.
+
+=============================
+=          Design           =
+=============================
+
+Extensibility: its quite easy adding tests or methods to the classes/objects.
+
+Modularity: Most methods for the locker and longTermStorage had a striaghtforward solotion using Item's API.
+For BoopingSiteTest I added some private methods to avoid code duplication.
+
+Intuitiveness and understandability: I tried to make it as clear as I can. used 'magic data members' where I can, make
+clear and short method and not duplicate code. The worst parts are probably the addItem method in Locker because of
+its many conditions, or some of the method for either boopingSite or BoopingSiteTest since those usually involve
+for-loops.
+
+Representation of the classes and their relationships - unlike the last exercise, here we didn't have much relation
+between the classes we were asked to implement, maybe beside the LongTermStorage and the Locker, which I choose to
+implement using composition. LongTermStorage is the centrlized storage unit of the ship. meaning its single. thats
+why I choose to represent it by a static memeber. also, since we implemented an API for Locker, we couldn't send LongTerm
+to it by any method, thats why I choose to implement it as a private member of Locker.
+
+
+When I was creating the tests. I could either stick with concrit values, or make them dependent on parameters.
+for example, creating a locker with 50 capacity, then adding 5 bats to it. so the test could either just check that
+the expected number is met (which is 40) or make a culculation based on bats volume
+(like expected = DEFAULT_LOCKER_CAPACITY - 5 * BAT_VOLUME) and then test based on that. The adventage in the first
+method is that its clearer and more stright forward, the adventage in the second one is it more prone to changes, and if
+we change the volume of an item we don't need to change all the tests.
+
+I wanted to use random for some tests. for example i want to see what happens when i test for negative numbers. So I
+don't care about what number exactly I put just that its negative. this way I can also cover in the tests larger spectrom
+of possibilites. I dropped this idea since it would also make the test unrilaible in a sense - i could get a rare case
+and then couldn't recreate it in a debugging session for example. also it seemed kinda unnecessery.
+
+would it be better to look at absence of an item in the locker as item=0 or just as not having him in the locker mantioned
+at all...
+
+
+=============================
+=  Implementation details   =
+=============================
+Every test run should assume that all the parameters and objects are reset and with no previous values from other test,
+however i found it a bit hard to reset "long-term-storage" when running the 'locker' test. The long-term-storage was
+implemented in my code as a static private data member in the locker class. The logic behind it is that there is only
+one long term storage and all the lockers are connected to it globally. HOWEVER it gets to interact with the lockers so
+during the test its values can change. As stated, tests should start with all objects reset, there is actually function
+in long-term-storage that resets it, but as its private nature we can not access it. We also should not change the API
+meaning we can't make it public, or add a reset-long-term-storage method to the locker-class. You actually can reset it
+through the constructor but that actually makes more problems (since we dont want to reset every time we add a locker).
+
+When i made the hotels comperator, you have to make it so that if two hotels have similair rating they would be sorted
+alphabeticly. Some hotels had numbers or hyphens ('-') or dots ('.') so I had to choose either to ignore those or think
+of a way to decide how to compare them. at the end I choose to compare by the ASCII code value.
+
+
+=============================
+=    Answers to questions   =
+=============================

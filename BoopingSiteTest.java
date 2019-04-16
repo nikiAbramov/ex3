@@ -1,11 +1,10 @@
 import oop.ex3.searchengine.Hotel;
-import oop.ex3.searchengine.HotelDataset;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class BoopingSiteTest {
-    private Boopingsite testSite;
+    private BoopingSite testSite;
     private Hotel[] testHotels;
 
     final double MUMBI_MAHARASHTRA_LATITUDE = 19.076090;
@@ -26,7 +25,7 @@ public class BoopingSiteTest {
 
     @Before
     public void init(){
-        testSite = new Boopingsite("hotels_dataset.txt");
+        testSite = new BoopingSite("hotels_dataset.txt");
     }
 
     @Test

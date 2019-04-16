@@ -3,9 +3,24 @@ import oop.ex3.searchengine.Hotel;
 import java.util.Comparator;
 
 public class HotelProximityComperator implements Comparator<Hotel> {
+    /**
+     * A comperator for two Hotel objects. compares them based on their proximitry to a choose point. and by their POI.
+     * @param locationLatitude  - The relative latitude to which the hotels are compared
+     * @param locationLongitude - The relative longitude to which the hotels are compared
+     */
+
     private double locationLatitude;
     private double locationLongitude;
 
+    /**
+     * Compares two hotels based on their distance from the inner latitude and longitude of the comperator.
+     * If a hotel is closer to the point, he is considered greater then the other.
+     * In case both hotels are at the same distance, the hotel with more points-of-intrest is considered greater.
+     * Otherwise they are considered the same
+     * @param hotel1 The first hotel which this method compares
+     * @param hotel2 The second hotel which this method compares
+     * @return 1 if the first Hotel is greater, 0 if they are the same, -1 if the second one is greater.
+     */
     public int compare(Hotel hotel1, Hotel hotel2){
         double distanceHotel1;
         double distanceHotel2;
@@ -43,6 +58,9 @@ public class HotelProximityComperator implements Comparator<Hotel> {
         return false;
     }
 
+    /**
+     * setters for the relative latitude and longitude of the comperator.
+     */
     public void setLocationLatitude(double locationLatitude) { this.locationLatitude = locationLatitude; }
 
     public void setLocationLongitude(double locationLongitude) { this.locationLongitude = locationLongitude; }
