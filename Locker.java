@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Locker {
-    static LongTermStorage LONG_TERM_STORAGE = new LongTermStorage();
+    static private LongTermStorage LONG_TERM_STORAGE = new LongTermStorage();
 
     final String MSG_ERROR_RMV_1 = "Error: Your request cannot be completed at this time. Problem: cannot remove a negative number of items of type ";
     final Item ITEM_BASEBALL_BAT = ItemFactory.createSingleItem("baseball bat");
@@ -145,20 +145,7 @@ public class Locker {
         Iterator iter = inventory.entrySet().iterator();
         while(iter.hasNext()){
             Map.Entry pair = (Map.Entry)iter.next();
-            int itemVolume = 0;
-            switch (pair.getKey().toString()){
-                case "baseball bat":
-                    itemVolume = 2;
-                    break;
-                case "helmet, size 1":
-                    itemVolume = 3;
-                    break;
-                case "helmet, size 3":
-                    itemVolume = 5;
-                    break;
-                case "spores engine":
-                    itemVolume = 10;
-            }
+            int itemVolume = ItemFactory.createSingleItem(pair.getKey().toString()).getVolume();
             availableCapacity -= (int)pair.getValue() * itemVolume;
         }
         return availableCapacity;

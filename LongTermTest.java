@@ -16,10 +16,6 @@ public class LongTermTest {
     final Item ITEM_SPORES_ENGINE = ItemFactory.createSingleItem("spores engine");
 
     private LongTermStorage testStorage;
-    @BeforeClass
-    public static void setUpLongTermTest(){
-
-    }
 
     @Before
     public void createLongTermStorage(){
