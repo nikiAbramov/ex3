@@ -32,7 +32,7 @@ public class BoopingSiteTest {
 
 
         hotelnCityByRating = testSite.getHotelsByProximity(25, 25);
-        Assert.assertEquals(100, hotelnCityByRating.length);
+        Assert.assertEquals(3997, hotelnCityByRating.length);
     }
 
     @Test
@@ -59,11 +59,29 @@ public class BoopingSiteTest {
 
     @Test
     public void testGetHotelsByProximity(){
+        Assert.assertEquals(new Hotel[0], testSite.getHotelsByProximity(-90.01, 0));
+        Assert.assertEquals(new Hotel[0], testSite.getHotelsByProximity(90.01, 0));
+        Assert.assertEquals(new Hotel[0], testSite.getHotelsByProximity(0, -180.01));
+        Assert.assertEquals(new Hotel[0], testSite.getHotelsByProximity(0, 180.01));
+
+        testSite.getHotelsByProximity(45.0, 45.0);
+
+        Hotel[] hotelsTESTING = testSite.getHotelsByProximity(0.0, 0.0);
+
+        for (int i = 0; i < hotelsTESTING.length - 1; i++){
+            Assert.assertFalse(testSite.GetDistanceFrom(hotelsTESTING[i], 0.0, 0.0) >
+                    testSite.GetDistanceFrom(hotelsTESTING[i + 1], 0.0, 0.0));
+        }
 
     }
 
     @Test
     public void testGetHotelsInCityByProximity(){
+        Hotel[] hotelsTESTING = testSite.getHotelInCityByProximity("delhi", 28.0, 77.0);
 
+        for (int i = 0; i < hotelsTESTING.length - 1; i++){
+            Assert.assertFalse(testSite.GetDistanceFrom(hotelsTESTING[i], 28.0, 77.0) >
+                    testSite.GetDistanceFrom(hotelsTESTING[i + 1], 28.0, 77.0));
+        }
     }
 }

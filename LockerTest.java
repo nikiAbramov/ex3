@@ -13,16 +13,11 @@ public class LockerTest {
     final int HELMET_1_VOLUME = 3;
     final int HELMET_3_VOLUME = 5;
     final int SPORES_ENGINE_VOLUME = 10;
-    final Item ITEM_BASEBALL_BAT = itemFactory.createSingleItem("baseball bat");
-    final Item ITEM_HELMET_1 = itemFactory.createSingleItem("helmet, size 1");
-    final Item ITEM_HELMET_3 = itemFactory.createSingleItem("helmet, size 3");
-    final Item ITEM_SPORES_ENGINE = itemFactory.createSingleItem("spores engine");
-    final Item ITEM_FOOTBALL = itemFactory.createSingleItem("football");
-
-    @BeforeClass
-    public static void createItemFactory(){
-        itemFactory = new ItemFactory();
-    }
+    final Item ITEM_BASEBALL_BAT = ItemFactory.createSingleItem("baseball bat");
+    final Item ITEM_HELMET_1 = ItemFactory.createSingleItem("helmet, size 1");
+    final Item ITEM_HELMET_3 = ItemFactory.createSingleItem("helmet, size 3");
+    final Item ITEM_SPORES_ENGINE = ItemFactory.createSingleItem("spores engine");
+    final Item ITEM_FOOTBALL = ItemFactory.createSingleItem("football");
 
     @Before
     public void createTestLocker(){
@@ -38,7 +33,7 @@ public class LockerTest {
         Assert.assertEquals(0, testLocker.getCapacity());
     }
 
-    @Ignore
+    @Test
     public void testGetAvailableCapacity(){
         int expectedAvailabeCapacity = TEST_LOCKER_SIZE_DEFAULT;
         Assert.assertEquals(expectedAvailabeCapacity, testLocker.getAvailableCapacity());
@@ -79,11 +74,11 @@ public class LockerTest {
         Assert.assertEquals(expectedAvailabeCapacity, testLocker.getAvailableCapacity());
 
         testLocker.addItem(ITEM_BASEBALL_BAT, 30);
-        expectedAvailabeCapacity = (int)(TEST_LOCKER_SIZE_DEFAULT * 0.2);
+        expectedAvailabeCapacity = (int)(TEST_LOCKER_SIZE_DEFAULT * 0.8);
         Assert.assertEquals(expectedAvailabeCapacity, testLocker.getAvailableCapacity());
 
         testLocker.addItem(ITEM_HELMET_3, 12);
-        expectedAvailabeCapacity = (int)(TEST_LOCKER_SIZE_DEFAULT * 0.4);
+        expectedAvailabeCapacity = (int)(TEST_LOCKER_SIZE_DEFAULT * 0.6);
         Assert.assertEquals(expectedAvailabeCapacity, testLocker.getAvailableCapacity());
 
         testLocker.addItem(ITEM_HELMET_1, 17);

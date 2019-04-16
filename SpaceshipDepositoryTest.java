@@ -4,7 +4,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         LockerTest.class,
-        LongTermStorage.class
+        LongTermTest.class
 })
 
 public class SpaceshipDepositoryTest {
